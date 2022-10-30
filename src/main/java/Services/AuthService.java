@@ -4,8 +4,6 @@ import DataSource.Repo;
 import be.User;
 
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,7 +15,7 @@ public class AuthService {
        return  instance;
     }
     private  static AuthService instance;
-    private Map<Integer,String> Tokens;
+    private final  Map<Integer,String> Tokens;
     private AuthService()
     {
         Tokens=new HashMap<>();
@@ -39,6 +37,12 @@ public class AuthService {
         if(userByEmail.getPassword().equals(password)) {
             return createNewToken(email);
         }
-       throw  new IllegalArgumentException("The password aren't match the email ");
+       throw new IllegalArgumentException("The password does not match the email.");
     }
+    public boolean checkToken(String email,String Token)
+    {
+        User user=Repo.getInstance().getUserByEmail(email);
+        return Tokens.get(user.getId()).equals(Token);
+    }
+
 }
