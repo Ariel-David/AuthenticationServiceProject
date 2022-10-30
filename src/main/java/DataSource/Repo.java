@@ -3,13 +3,11 @@ package DataSource;
 import be.User;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.*;
 
 public class Repo {
-    static final String PATH = "src/main/java/DataSource/jsons";
-
+    private static final String PATH = "src/main/java/DataSource/jsons/";
+    private static Gson gson = new Gson();
     private static Repo instance;
 
     private Repo() {
@@ -23,27 +21,38 @@ public class Repo {
     }
 
     public void addNewUser(User user) {
-        Gson gson = new Gson();
         int userId = user.getId();
-        File userJsonFile = new File(PATH+"User"+userId);
+        FileWriter writer;
+        File userJsonFile = new File(PATH + "User" + userId);
+        String userJson = gson.toJson(user);
         try {
             userJsonFile.createNewFile();
+            writer = new FileWriter(userJsonFile);
+            writer.write(userJson);
         } catch (IOException e) {
-            System.out.println("User file creation failed");
+            System.out.println("new user json file creation/writing failed");
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        String userJson = gson.toJson(user);
-        //write to json
-        throw new UnsupportedOperationException();
     }
 
-    public User getUserByID(int id) {
-        throw new UnsupportedOperationException();
+    public User getUserById(int id) {
+        File userJsonFile = new File(PATH + "User" + id);
+        FileReader fileReader;
+        if (!userJsonFile.exists()) {
+            System.out.println("User " + id + "does not exist");
+            return null;
+        }
+        try {
+            fileReader = new FileReader(userJsonFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);  //will never occur
+        }
+        User userFromJson = gson.fromJson(fileReader, User.class);
+        return userFromJson;
     }
 
     public User getUserByEmail(String email) {
         throw new UnsupportedOperationException();
     }
-
 }
