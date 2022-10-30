@@ -1,13 +1,14 @@
 package be;
 
 public class User {
+    private static int idCounter = 10000;
     private final int id;
     private final String email;
     private String name;
     private String password;
 
-    public User(int id, String email, String name, String password) {
-        this.id = id;
+    public User( String email, String name, String password) {
+        this.id = idCounter++;
         this.email = email;
         this.name = name;
         this.password = password;
