@@ -3,7 +3,7 @@ package be;
 public class User {
     private static int idCounter = 10000;
     private final int id;
-    private final String email;
+    private String email;
     private String name;
     private String password;
 

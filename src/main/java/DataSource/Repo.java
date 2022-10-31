@@ -4,15 +4,23 @@ import be.User;
 import com.google.gson.Gson;
 
 import java.io.*;
-
+import java.nio.file.Files;
+import java.util.Map;
 public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
     private static Gson gson = new Gson();
+    private Map<Integer, User> users;
     private static Repo instance;
 
     private Repo() {
     }
 
+    public void updateUser(User user){
+        if(users.containsKey(user.getId())){
+            users.put(user.getId(), user);
+        }
+    }
+    
     public static Repo getInstance() {
         if (instance == null) {
             instance = new Repo();
