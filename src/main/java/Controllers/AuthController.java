@@ -16,10 +16,10 @@ public class AuthController {
         validation = new Validation();
     }
 
-    public void tryLogin(String email, String password) {
+    public String tryLogin(String email, String password) {
         validation.isValidEmail(email);
         validation.isValidPassword(password);
-        AuthService.getInstance().login(email, password);
+        return AuthService.getInstance().login(email, password);
     }
 
     public void checkToken(String email, String Token) {

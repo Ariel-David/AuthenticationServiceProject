@@ -1,5 +1,8 @@
 package Client;
 
+import Controllers.AuthController;
+import Controllers.UserController;
+
 import java.util.Scanner;
 
 enum UserActions{
@@ -10,8 +13,8 @@ enum UserActions{
     EXIT
 };
 public class Client {
-    private String token;
-
+    private static String token;
+    private static String email;
 
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
@@ -27,6 +30,7 @@ public class Client {
             action= UserActions.valueOf(scanner.next());
             switch (action) {
                 case REGISTER:
+                    UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
                     handelRegister(scanner);
                     break;
                 case LOGIN:
@@ -46,7 +50,8 @@ public class Client {
         System.out.println("enter your token:");
         String token=scanner.nextLine();
         System.out.println("enter your new password:");
-        String name=scanner.nextLine();
+        String password=scanner.nextLine();
+        UserController.getInstance().modifyPassword(email,token,password);
     }
 
     private static void HandelUpdateName(Scanner scanner) {
@@ -54,6 +59,7 @@ public class Client {
         String token=scanner.nextLine();
         System.out.println("enter your new name:");
         String name=scanner.nextLine();
+
     }
 
     private static void handelLogin(Scanner scanner) {
@@ -61,10 +67,11 @@ public class Client {
         String email= scanner.nextLine();
         System.out.println("enter your password:");
         String password= scanner.nextLine();
-
+        token=AuthController.getInstance().tryLogin(email,password);
     }
 
     private static void handelRegister(Scanner scanner) {
+        scanner=new Scanner(System.in);
         System.out.println("    Start Registration:   ");
         System.out.println("enter your name:");
         String name= scanner.nextLine();
@@ -72,5 +79,7 @@ public class Client {
         String email= scanner.nextLine();
         System.out.println("enter a password:");
         String password= scanner.nextLine();
+        UserController.getInstance().createNewUser(email,password,name);
+        email=email;
     }
 }

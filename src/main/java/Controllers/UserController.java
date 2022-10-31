@@ -16,7 +16,7 @@ public class UserController {
     {
         validation.isValidEmail(email);
         validation.isValidPassword(password);
-        UserController.getInstance().createNewUser(email, password, userName);
+        UserService.getInstance().createUser(userName,email,password);
     }
     public void modifyPassword(String email,String Token,String newPassword)
     {

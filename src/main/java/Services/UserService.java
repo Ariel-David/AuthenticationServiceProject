@@ -13,7 +13,7 @@ public class UserService {
     private static UserService instance;
 
     public static UserService getInstance() {
-        if(instance!=null)instance=new UserService();
+        if(instance==null)instance=new UserService();
         return instance;
     }
     private  UserService(){}
@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User createUser(String name, String email, String password) {
-        User u = new User(name, email, password);
+        User u = new User(email, name, password);
         Repo.getInstance().addNewUser(u);
         System.out.println("User is created!");
         return u;
