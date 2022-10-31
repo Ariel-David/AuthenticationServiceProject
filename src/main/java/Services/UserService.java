@@ -1,12 +1,7 @@
 package Services;
 
-import Controllers.UserController;
 import DataSource.Repo;
 import be.User;
-
-import java.io.IOException;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class UserService {
 
@@ -24,10 +19,15 @@ public class UserService {
     }
 
     public User createUser(String name, String email, String password) {
+        isEmailFree(email);
         User u = new User(email, name, password);
         Repo.getInstance().addNewUser(u);
         System.out.println("User is created!");
         return u;
+    }
+
+    private void isEmailFree(String email) {
+        if(Repo.getInstance().getUserByEmail(email)!=null) throw new IllegalArgumentException("There is another user with the email you type. please try another:");
     }
 
     public void changePassword(String email, String password) {
