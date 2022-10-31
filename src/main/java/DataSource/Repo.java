@@ -4,6 +4,9 @@ import be.User;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
@@ -28,8 +31,7 @@ public class Repo {
         String userJson = gson.toJson(user);
         try {
             userJsonFile.createNewFile();
-            writer = new FileWriter(userJsonFile);
-            writer.write(userJson);
+            Files.write(Paths.get(PATH + "User" + userId), userJson.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             System.out.println("new user json file creation/writing failed");
             e.printStackTrace();
