@@ -30,11 +30,11 @@ public class UserService {
         return u;
     }
 
-    public void changePassword(User u, String password) {
-        u.setPassword(password);
+    public void changePassword(String email, String password) {
+        Repo.getInstance().getUserByEmail(email).setPassword(password);
     }
 
-    public void changeName(User u, String name) {
-        u.setPassword(name);
+    public void changeName(String email, String name) {
+        Repo.getInstance().getUserByEmail(email).setName(name);
     }
 }
