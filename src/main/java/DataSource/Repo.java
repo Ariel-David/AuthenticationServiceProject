@@ -10,6 +10,7 @@ public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
     private static Gson gson = new Gson();
     private Map<Integer, User> users;
+    private Map<String, User> usersByEmails;
     private static Repo instance;
 
     private Repo() {
@@ -61,6 +62,23 @@ public class Repo {
     }
 
     public User getUserByEmail(String email) {
-        throw new UnsupportedOperationException();
+        FileReader fileReader;
+        File dir = new File(PATH);
+        File[] foundFiles = dir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.startsWith("User");
+            }
+        });
+
+        for (File file : foundFiles) {
+            try {
+                fileReader = new FileReader(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);  //will never occur
+            }
+            User tempUser = gson.fromJson(fileReader, User.class);
+            usersByEmails.put(tempUser.getEmail(), tempUser);
+        }
+        return usersByEmails.get(email);
     }
 }
