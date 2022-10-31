@@ -1,5 +1,4 @@
-package Services;
-
+package Controllers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,9 +15,14 @@ public class Validation {
         return true;
     }
 
-    public boolean validEmail(String email) {
+    private boolean validEmail(String email) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
+    }
+    public void isValidEmail(String email)
+    {
+        if(validEmail(email)) return;
+        throw  new IllegalArgumentException("The email you entered is not valid.");
     }
 
 }
