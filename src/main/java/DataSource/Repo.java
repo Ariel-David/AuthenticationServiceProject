@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Optional;
+
 public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
     private static Gson gson = new Gson();
@@ -55,7 +57,7 @@ public class Repo {
         return userFromJson;
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         FileReader fileReader;
         File dir = new File(PATH);
         File[] foundFiles = dir.listFiles(new FilenameFilter() {
@@ -73,23 +75,24 @@ public class Repo {
             User tempUser = gson.fromJson(fileReader, User.class);
             usersByEmails.put(tempUser.getEmail(), tempUser);
         }
-        return usersByEmails.get(email);
+        if(usersByEmails==null) return Optional.empty();
+        return Optional.of(usersByEmails.get(email));
     }
 
     public void updateUsersName(String email, String newName)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = getUserByEmail(email).orElseThrow();
         tempUser.setName(newName);
         addNewUser(tempUser);
     }
 
     public void updateUsersPassword(String email, String newPassword)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = getUserByEmail(email).orElseThrow();
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
 
     public void updateUsersEmail(String email, String newEmail)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = getUserByEmail(email).orElseThrow();
         tempUser.setEmail(newEmail);
         addNewUser(tempUser);
     }

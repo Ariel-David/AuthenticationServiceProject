@@ -6,6 +6,7 @@ import be.User;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
@@ -25,15 +26,14 @@ public class AuthService {
         byte [] bytes=new byte[8];
         ThreadLocalRandom.current().nextBytes(bytes);
         var s=  new String( bytes, StandardCharsets.US_ASCII);
-        User user=Repo.getInstance().getUserByEmail(email);
+        User user= ServicesUtil.isUserExists(Repo.getInstance().getUserByEmail(email));
         Tokens.put(user.getId(),s);
         return s;
     }
     public String login(String email,String password)
     {
         Repo repo=Repo.getInstance();
-        User userByEmail = repo.getUserByEmail(email);
-        if(userByEmail==null) throw new IllegalArgumentException("There is no user with the email you type");
+        User userByEmail= ServicesUtil.isUserExists(repo.getUserByEmail(email));
         if(userByEmail.getPassword().equals(password)) {
             return createNewToken(email);
         }
@@ -41,7 +41,7 @@ public class AuthService {
     }
     public boolean checkToken(String email,String Token)
     {
-        User user=Repo.getInstance().getUserByEmail(email);
+        User user = ServicesUtil.isUserExists(Repo.getInstance().getUserByEmail(email));
         return Tokens.get(user.getId()).equals(Token);
     }
 

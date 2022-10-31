@@ -27,7 +27,7 @@ public class Client {
             {
                 System.out.printf("%d: %s\n",++i,act);
             }
-            action= UserActions.valueOf(scanner.next());
+            action= UserActions.valueOf(scanner.nextLine());
             switch (action) {
                 case REGISTER:
                     UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
@@ -71,7 +71,6 @@ public class Client {
     }
 
     private static void handelRegister(Scanner scanner) {
-        scanner=new Scanner(System.in);
         System.out.println("    Start Registration:   ");
         System.out.println("enter your name:");
         String name= scanner.nextLine();

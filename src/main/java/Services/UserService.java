@@ -27,14 +27,14 @@ public class UserService {
     }
 
     private void isEmailFree(String email) {
-        if(Repo.getInstance().getUserByEmail(email)!=null) throw new IllegalArgumentException("There is another user with the email you type. please try another:");
+        if(Repo.getInstance().getUserByEmail(email).isPresent()) throw new IllegalArgumentException("There is another user with the email you type. please try another:");
     }
 
     public void changePassword(String email, String password) {
-        Repo.getInstance().getUserByEmail(email).setPassword(password);
+      ServicesUtil.isUserExists( Repo.getInstance().getUserByEmail(email)).setPassword(password);
     }
 
     public void changeName(String email, String name) {
-        Repo.getInstance().getUserByEmail(email).setName(name);
+        ServicesUtil.isUserExists(Repo.getInstance().getUserByEmail(email)).setName(name);
     }
 }
