@@ -34,7 +34,7 @@ public class UserService {
         Repo.getInstance().getUserByEmail(email).setPassword(password);
     }
 
-    public void changeName(User u, String name) {
-        u.setPassword(name);
+    public void changeName(String email, String name) {
+        Repo.getInstance().getUserByEmail(email).setName(name);
     }
 }
