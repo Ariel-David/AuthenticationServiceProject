@@ -18,8 +18,7 @@ public class AuthController {
 
     public void tryLogin(String email, String password) {
         validation.isValidEmail(email);
-        if (!validation.validPassword(password))
-            throw new IllegalArgumentException("The password you entered is not valid.");
+        validation.isValidPassword(password);
         AuthService.getInstance().login(email, password);
     }
 

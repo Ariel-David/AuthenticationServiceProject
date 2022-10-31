@@ -10,6 +10,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class UserService {
 
+    private static UserService instance;
+
+    public static UserService getInstance() {
+        if(instance!=null)instance=new UserService();
+        return instance;
+    }
+    private  UserService(){}
     public void validUniqueEmail(String email) {
         if (Repo.getInstance().getUserByEmail(email) != null) {
             throw new IllegalArgumentException("A user with this email already exists. Choose another email.");
