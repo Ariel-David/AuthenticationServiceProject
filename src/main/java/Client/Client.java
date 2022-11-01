@@ -26,11 +26,16 @@ public class Client {
                     handelRegister(scanner);
                     break;
                 case LOGIN:
-                    handelLogin(scanner);
+                    handleLogin(scanner);
+                    break;
                 case UPDATE_NAME:
-                    HandelUpdateName(scanner);
+                    handleUpdateName(scanner);
+                    break;
                 case UPDATE_PASSWORD:
-                    HandelUpdatePassword(scanner);
+                    handleUpdatePassword(scanner);
+                    break;
+                case UPDATE_EMAIL:
+                    handleUpdateEmail(scanner);
                     break;
                 case EXIT:
                     return;
@@ -38,28 +43,31 @@ public class Client {
         }
 
     }
-    private static void HandelUpdatePassword(Scanner scanner) {
-        System.out.println("enter your token:");
-        String token=scanner.nextLine();
+    private static void handleUpdatePassword(Scanner scanner) {
         System.out.println("enter your new password:");
-        String password=scanner.nextLine();
-        UserController.getInstance().modifyPassword(email,token,password);
+        String newPassword=scanner.nextLine();
+        UserController.getInstance().modifyPassword(email,token,newPassword);
+    }
+    private static void handleUpdateEmail(Scanner scanner)
+    {
+        System.out.println("enter your new email:");
+        String newEmail=scanner.nextLine();
+        UserController.getInstance().modifyEmail(email,token,newEmail);
     }
 
-    private static void HandelUpdateName(Scanner scanner) {
-        System.out.println("enter your token:");
-        String token=scanner.nextLine();
+    private static void handleUpdateName(Scanner scanner) {
         System.out.println("enter your new name:");
-        String name=scanner.nextLine();
-
+        String newName=scanner.nextLine();
+        UserController.getInstance().modifyUserName(email,token,newName);
     }
 
-    private static void handelLogin(Scanner scanner) {
+    private static void handleLogin(Scanner scanner) {
         System.out.println("enter your email:");
         String email= scanner.nextLine();
         System.out.println("enter your password:");
         String password= scanner.nextLine();
         token=AuthController.getInstance().tryLogin(email,password);
+        Client.email=email;
     }
 
     private static void handelRegister(Scanner scanner) {
