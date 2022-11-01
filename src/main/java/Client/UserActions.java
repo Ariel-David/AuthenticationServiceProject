@@ -1,6 +1,6 @@
 package Client;
 
-enum UserActions{
+enum UserActions {
     REGISTER,
     LOGIN,
     UPDATE_NAME,

@@ -7,7 +7,7 @@ public class User {
     private String name;
     private String password;
 
-    public User( String email, String name, String password) {
+    public User(String email, String name, String password) {
         this.id = idCounter++;
         this.email = email;
         this.name = name;
