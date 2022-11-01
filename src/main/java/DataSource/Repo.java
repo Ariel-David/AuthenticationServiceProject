@@ -76,8 +76,8 @@ public class Repo {
             User tempUser = gson.fromJson(fileReader, User.class);
             usersByEmails.put(tempUser.getEmail(), tempUser);
         }
-        if(usersByEmails==null) return Optional.empty();
-        return Optional.of(usersByEmails.get(email));
+        if(usersByEmails.containsKey(email)) return Optional.of(usersByEmails.get(email));
+        return Optional.empty();
     }
 
     public void updateUsersName(String email, String newName)   {

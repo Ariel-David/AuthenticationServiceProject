@@ -16,7 +16,7 @@ public class Client {
         {
             System.out.println("please choose one of the following options:");
             int i=0;
-            for (var act:UserActions.values())
+            for (UserActions act:UserActions.values())
             {
                 System.out.printf("%d: %s\n",++i,act);
             }
