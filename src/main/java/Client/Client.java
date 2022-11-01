@@ -5,13 +5,6 @@ import Controllers.UserController;
 
 import java.util.Scanner;
 
-enum UserActions{
-    REGISTER,
-    LOGIN,
-    UPDATE_NAME,
-    UPDATE_PASSWORD,
-    EXIT
-};
 public class Client {
     private static String token;
     private static String email;
@@ -30,7 +23,7 @@ public class Client {
             action= UserActions.valueOf(scanner.nextLine());
             switch (action) {
                 case REGISTER:
-                    UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
+                    //UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
                     handelRegister(scanner);
                     break;
                 case LOGIN:
@@ -79,6 +72,5 @@ public class Client {
         System.out.println("enter a password:");
         String password= scanner.nextLine();
         UserController.getInstance().createNewUser(email,password,name);
-        email=email;
     }
 }

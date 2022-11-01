@@ -80,19 +80,19 @@ public class Repo {
     }
 
     public void updateUsersName(String email, String newName)   {
-        User tempUser = getUserByEmail(email).orElseThrow();
+        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setName(newName);
         addNewUser(tempUser);
     }
 
     public void updateUsersPassword(String email, String newPassword)   {
-        User tempUser = getUserByEmail(email).orElseThrow();
+        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
 
     public void updateUsersEmail(String email, String newEmail)   {
-        User tempUser = getUserByEmail(email).orElseThrow();
+        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setEmail(newEmail);
         addNewUser(tempUser);
     }
