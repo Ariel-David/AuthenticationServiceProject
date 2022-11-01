@@ -9,17 +9,18 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
-    public static AuthService getInstance()
-    {
-       if(instance==null) instance= new AuthService();
-       return  instance;
+    public static AuthService getInstance() {
+        if (instance == null) instance = new AuthService();
+        return instance;
     }
-    private  static AuthService instance;
-    private final  Map<Integer,String> Tokens;
-    private AuthService()
-    {
-        Tokens=new HashMap<>();
+
+    private static AuthService instance;
+    private final Map<Integer, String> Tokens;
+
+    private AuthService() {
+        Tokens = new HashMap<>();
     }
+
     private String createNewToken(String email)
     {
         var s= AuthService.generateRandomToken(8);
@@ -27,14 +28,14 @@ public class AuthService {
         Tokens.put(user.getId(),s);
         return s;
     }
-    public String login(String email,String password)
-    {
-        Repo repo=Repo.getInstance();
-        User userByEmail= ServicesUtil.isUserExists(repo.getUserByEmail(email));
-        if(userByEmail.getPassword().equals(password)) {
+
+    public String login(String email, String password) {
+        Repo repo = Repo.getInstance();
+        User userByEmail = ServicesUtil.isUserExists(repo.getUserByEmail(email));
+        if (userByEmail.getPassword().equals(password)) {
             return createNewToken(email);
         }
-       throw new IllegalArgumentException("The password does not match the email.");
+        throw new IllegalArgumentException("The password does not match the email.");
     }
     public boolean checkToken(String email,String Token)
     {

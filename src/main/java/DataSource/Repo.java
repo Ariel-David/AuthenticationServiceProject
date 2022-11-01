@@ -18,7 +18,7 @@ public class Repo {
     private static Repo instance;
 
     private Repo() {
-        usersByEmails =new HashMap<>();
+        usersByEmails = new HashMap<>();
     }
 
     public static Repo getInstance() {
@@ -76,9 +76,10 @@ public class Repo {
             User tempUser = gson.fromJson(fileReader, User.class);
             usersByEmails.put(tempUser.getEmail(), tempUser);
         }
-        if(usersByEmails==null) return Optional.empty();
+        if (usersByEmails == null) return Optional.empty();
         return Optional.of(usersByEmails.get(email));
     }
+
 
     public void updateUsersName(String email, String newName)   {
         User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
@@ -91,6 +92,7 @@ public class Repo {
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
+
 
     public void updateUsersEmail(String email, String newEmail)   {
         User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
