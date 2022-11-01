@@ -9,8 +9,8 @@ public class Validation {
     private void validPassword(String password) {
         if (password == null) {
             throw new IllegalArgumentException("Password can't be empty!");
-        } else if (password.length() < 8 && password.length() > 12) {
-            throw new IllegalArgumentException("Password length invalid");
+        } else if (password.length() < 8 || password.length() > 12) {
+            throw new IllegalArgumentException("Password length invalid. The passwords length should be between 8 and 12 characters.");
         }
     }
     public void isValidPassword(String password)

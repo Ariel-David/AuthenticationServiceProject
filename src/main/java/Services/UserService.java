@@ -27,7 +27,7 @@ public class UserService {
     }
 
     private void isEmailFree(String email) {
-        if(Repo.getInstance().getUserByEmail(email).isPresent()) throw new IllegalArgumentException("There is another user with the email you type. please try another:");
+        if(Repo.getInstance().getUserByEmail(email).isPresent()) throw new IllegalArgumentException("There is another user with the email you type. please try another.");
     }
 
     public void changePassword(String email, String password) {

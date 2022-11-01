@@ -20,7 +20,7 @@ public class Client {
             {
                 System.out.printf("%d: %s\n",++i,act);
             }
-            action= UserActions.valueOf(scanner.nextLine());
+            action= UserActions.valueOf(scanner.nextLine().trim());
             switch (action) {
                 case REGISTER:
                     //UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
