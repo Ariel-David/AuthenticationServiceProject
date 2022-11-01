@@ -5,15 +5,17 @@ import Services.UserService;
 public class UserController {
     private static UserController instance;
     Validation validation;
+
     public static UserController getInstance() {
-        if(instance==null)instance=new UserController();
+        if (instance == null) instance = new UserController();
         return instance;
     }
-    private  UserController(){
-        validation=new Validation();
+
+    private UserController() {
+        validation = new Validation();
     }
-    public void createNewUser(String email,String password,String userName)
-    {
+
+    public void createNewUser(String email, String password, String userName) {
         try {
             validation.isValidEmail(email);
             validation.isValidPassword(password);
@@ -42,6 +44,7 @@ public class UserController {
     {
         AuthController.getInstance().checkToken(email, Token);
         UserService.getInstance().changeName(email,newUserName);
+
     }
     public void modifyEmail(String email,String Token,String newEmail)
     {

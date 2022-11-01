@@ -18,7 +18,7 @@ public class Repo {
     private static Repo instance;
 
     private Repo() {
-        usersByEmails =new HashMap<>();
+        usersByEmails = new HashMap<>();
     }
 
     public static Repo getInstance() {
@@ -80,6 +80,7 @@ public class Repo {
         return Optional.empty();
     }
 
+
     public void updateUsersName(String email, String newName)   {
         User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setName(newName);
@@ -91,6 +92,7 @@ public class Repo {
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
+
 
     public void updateUsersEmail(String email, String newEmail)   {
         User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
