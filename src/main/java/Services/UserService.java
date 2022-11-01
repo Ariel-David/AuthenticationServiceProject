@@ -43,7 +43,7 @@ public class UserService {
     }
     public void changeEmail(String email,String newEmail)
     {
-        validUniqueEmail(newEmail);
+        if(Repo.getInstance().getUserByEmail(newEmail).isPresent()) throw  new IllegalArgumentException(String.format("The email address:%s is already in use.\nPlease trt another.",newEmail));
         Repo.getInstance().updateUsersEmail(email, newEmail);
     }
 }
