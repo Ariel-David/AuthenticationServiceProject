@@ -23,7 +23,6 @@ public class Client {
             action= UserActions.valueOf(scanner.nextLine().trim());
             switch (action) {
                 case REGISTER:
-                    //UserController.getInstance().createNewUser("itamar@gmail.com","dsdsffdf","");
                     handelRegister(scanner);
                     break;
                 case LOGIN:

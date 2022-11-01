@@ -18,7 +18,7 @@ public class Repo {
     private static Repo instance;
 
     private Repo() {
-        usersByEmails =new HashMap<>();
+        usersByEmails = new HashMap<>();
     }
 
     public static Repo getInstance() {
@@ -77,23 +77,23 @@ public class Repo {
             User tempUser = gson.fromJson(fileReader, User.class);
             usersByEmails.put(tempUser.getEmail(), tempUser);
         }
-        if(usersByEmails==null) return Optional.empty();
+        if (usersByEmails == null) return Optional.empty();
         return Optional.of(usersByEmails.get(email));
     }
 
-    public void updateUsersName(String email, String newName)   {
+    public void updateUsersName(String email, String newName) {
         User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setName(newName);
         addNewUser(tempUser);
     }
 
-    public void updateUsersPassword(String email, String newPassword)   {
+    public void updateUsersPassword(String email, String newPassword) {
         User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
 
-    public void updateUsersEmail(String email, String newEmail)   {
+    public void updateUsersEmail(String email, String newEmail) {
         User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
         tempUser.setEmail(newEmail);
         addNewUser(tempUser);
