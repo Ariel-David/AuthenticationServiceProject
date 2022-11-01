@@ -34,17 +34,18 @@ public class UserController {
             validation.isValidPassword(newPassword);
             AuthController.getInstance().checkToken(email, Token);
             UserService.getInstance().changePassword(email, newPassword);
+            System.out.println("The password has been successfully changed.");
         }
         catch (IllegalArgumentException exp)
         {
-
+            ControllersUtil.printErrorToCmd("Failed to change password.",exp.getMessage());
         }
     }
     public void modifyUserName(String email,String Token,String newUserName)
     {
         AuthController.getInstance().checkToken(email, Token);
         UserService.getInstance().changeName(email,newUserName);
-
+        System.out.println("Your name has been successfully changed.");
     }
     public void modifyEmail(String email,String Token,String newEmail)
     {
@@ -52,6 +53,7 @@ public class UserController {
             validation.isValidEmail(newEmail);
             AuthController.getInstance().checkToken(email, Token);
             UserService.getInstance().changeEmail(email, newEmail);
+            System.out.println("Your email has been successfully changed.");
         }
         catch (IllegalArgumentException | NullPointerException exp)
         {

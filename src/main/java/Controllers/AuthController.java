@@ -20,7 +20,9 @@ public class AuthController {
         try {
             validation.isValidEmail(email);
             validation.isValidPassword(password);
-            return AuthService.getInstance().login(email, password);
+            String token = AuthService.getInstance().login(email, password);
+            System.out.println("Login succeeded.");
+            return token;
         }
         catch (IllegalArgumentException exp)
         {
