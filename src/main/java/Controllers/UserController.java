@@ -14,9 +14,19 @@ public class UserController {
     }
     public void createNewUser(String email,String password,String userName)
     {
-        validation.isValidEmail(email);
-        validation.isValidPassword(password);
-        UserService.getInstance().createUser(userName,email,password);
+        try {
+            validation.isValidEmail(email);
+            validation.isValidPassword(password);
+            UserService.getInstance().createUser(userName, email, password);
+        } catch (IllegalArgumentException exp)
+        {
+            System.out.println("User cannot be created.");
+            System.out.println(exp.getMessage());
+        } catch (RuntimeException exp)
+        {
+            System.out.println("User cannot be created.");
+            System.out.println(exp.getMessage());
+        }
     }
     public void modifyPassword(String email,String Token,String newPassword)
     {
