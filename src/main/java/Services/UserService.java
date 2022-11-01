@@ -13,7 +13,7 @@ public class UserService {
     }
     private  UserService(){}
     public void validUniqueEmail(String email) {
-        if (Repo.getInstance().getUserByEmail(email) != null) {
+        if (Repo.getInstance().getUserByEmail(email).isPresent()) {
             throw new IllegalArgumentException("A user with this email already exists. Choose another email.");
         }
     }
@@ -31,10 +31,15 @@ public class UserService {
     }
 
     public void changePassword(String email, String password) {
-      ServicesUtil.isUserExists( Repo.getInstance().getUserByEmail(email)).setPassword(password);
+      Repo.getInstance().updateUsersPassword(email,password);
     }
 
     public void changeName(String email, String name) {
-        ServicesUtil.isUserExists(Repo.getInstance().getUserByEmail(email)).setName(name);
+        Repo.getInstance().updateUsersName(email, name);
+    }
+    public void changeEmail(String email,String newEmail)
+    {
+        validUniqueEmail(newEmail);
+        Repo.getInstance().updateUsersEmail(email, newEmail);
     }
 }

@@ -13,8 +13,8 @@ import java.util.Optional;
 
 public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
-    private static Gson gson = new Gson();
-    private Map<String, User> usersByEmails;
+    private static final Gson gson = new Gson();
+    private final Map<String, User> usersByEmails;
     private static Repo instance;
 
     private Repo() {
@@ -55,8 +55,7 @@ public class Repo {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);  //will never occur
         }
-        User userFromJson = gson.fromJson(fileReader, User.class);
-        return userFromJson;
+        return gson.fromJson(fileReader, User.class);
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -82,20 +81,25 @@ public class Repo {
     }
 
     public void updateUsersName(String email, String newName)   {
-        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setName(newName);
         addNewUser(tempUser);
     }
 
     public void updateUsersPassword(String email, String newPassword)   {
-        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
 
     public void updateUsersEmail(String email, String newEmail)   {
-        User tempUser = getUserByEmail(email).orElseThrow(() -> new NullPointerException());
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setEmail(newEmail);
         addNewUser(tempUser);
+    }
+    private User throwUserNotFoundException(Optional<User> user,String email)
+    {
+        if(user.isPresent())return user.get();
+        throw new NullPointerException("No user with the following email address: "+ email+ " was found in the system.");
     }
 }

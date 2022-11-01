@@ -3,7 +3,7 @@ package Controllers;
 import Services.AuthService;
 
 public class AuthController {
-    private Validation validation;
+    private final Validation validation;
 
     public static AuthController getInstance() {
         if (instance == null) instance = new AuthController();
@@ -17,12 +17,24 @@ public class AuthController {
     }
 
     public String tryLogin(String email, String password) {
-        validation.isValidEmail(email);
-        validation.isValidPassword(password);
-        return AuthService.getInstance().login(email, password);
+        try {
+            validation.isValidEmail(email);
+            validation.isValidPassword(password);
+            return AuthService.getInstance().login(email, password);
+        }
+        catch (IllegalArgumentException exp)
+        {
+            ControllersUtil.printErrorToCmd("Login failed.",exp.getMessage());
+            return null;
+        }
     }
 
     public void checkToken(String email, String Token) {
+        if(Token==null || Token.isEmpty())
+        {
+            ControllersUtil.printErrorToCmd("Login failed.","The token is null or empty.\n You must login first to get a valid token.");
+            return;
+        }
         AuthService.getInstance().checkToken(email, Token);
     }
 }
