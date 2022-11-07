@@ -4,14 +4,21 @@ import be.User;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 public class Repo {
     private static final String PATH = "src/main/java/DataSource/jsons/";
-    private static Gson gson = new Gson();
-    private Map<String, User> usersByEmails;
+    private static final Gson gson = new Gson();
+    private final Map<String, User> usersByEmails;
     private static Repo instance;
 
     private Repo() {
+        usersByEmails = new HashMap<>();
     }
 
     public static Repo getInstance() {
@@ -28,8 +35,7 @@ public class Repo {
         String userJson = gson.toJson(user);
         try {
             userJsonFile.createNewFile();
-            writer = new FileWriter(userJsonFile);
-            writer.write(userJson);
+            Files.write(Paths.get(PATH + "User" + userId), userJson.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             System.out.println("new user json file creation/writing failed");
             e.printStackTrace();
@@ -49,11 +55,10 @@ public class Repo {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);  //will never occur
         }
-        User userFromJson = gson.fromJson(fileReader, User.class);
-        return userFromJson;
+        return gson.fromJson(fileReader, User.class);
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         FileReader fileReader;
         File dir = new File(PATH);
         File[] foundFiles = dir.listFiles(new FilenameFilter() {
@@ -71,24 +76,32 @@ public class Repo {
             User tempUser = gson.fromJson(fileReader, User.class);
             usersByEmails.put(tempUser.getEmail(), tempUser);
         }
-        return usersByEmails.get(email);
+        if(usersByEmails.containsKey(email)) return Optional.of(usersByEmails.get(email));
+        return Optional.empty();
     }
 
+
     public void updateUsersName(String email, String newName)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setName(newName);
         addNewUser(tempUser);
     }
 
     public void updateUsersPassword(String email, String newPassword)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setPassword(newPassword);
         addNewUser(tempUser);
     }
 
+
     public void updateUsersEmail(String email, String newEmail)   {
-        User tempUser = getUserByEmail(email);
+        User tempUser = throwUserNotFoundException(getUserByEmail(email),email);
         tempUser.setEmail(newEmail);
         addNewUser(tempUser);
+    }
+    private User throwUserNotFoundException(Optional<User> user,String email)
+    {
+        if(user.isPresent())return user.get();
+        throw new NullPointerException("No user with the following email address: "+ email+ " was found in the system.");
     }
 }

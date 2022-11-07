@@ -1,40 +1,49 @@
 package Services;
 
-import Controllers.UserController;
 import DataSource.Repo;
 import be.User;
-
-import java.io.IOException;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class UserService {
 
     private static UserService instance;
 
     public static UserService getInstance() {
-        if(instance!=null)instance=new UserService();
+        if (instance == null) instance = new UserService();
         return instance;
     }
-    private  UserService(){}
+
+    private UserService() {
+    }
+
     public void validUniqueEmail(String email) {
-        if (Repo.getInstance().getUserByEmail(email) != null) {
+        if (Repo.getInstance().getUserByEmail(email).isPresent()) {
             throw new IllegalArgumentException("A user with this email already exists. Choose another email.");
         }
     }
 
     public User createUser(String name, String email, String password) {
-        User u = new User(name, email, password);
+        isEmailFree(email);
+        User u = new User(email, name, password);
         Repo.getInstance().addNewUser(u);
         System.out.println("User is created!");
         return u;
     }
 
+    private void isEmailFree(String email) {
+        if (Repo.getInstance().getUserByEmail(email).isPresent())
+            throw new IllegalArgumentException("There is another user with the email you type. please try another.");
+    }
+
     public void changePassword(String email, String password) {
-        Repo.getInstance().getUserByEmail(email).setPassword(password);
+      Repo.getInstance().updateUsersPassword(email,password);
     }
 
     public void changeName(String email, String name) {
-        Repo.getInstance().getUserByEmail(email).setName(name);
+        Repo.getInstance().updateUsersName(email, name);
+    }
+    public void changeEmail(String email,String newEmail)
+    {
+        if(Repo.getInstance().getUserByEmail(newEmail).isPresent()) throw  new IllegalArgumentException(String.format("The email address:%s is already in use.\nPlease trt another.",newEmail));
+        Repo.getInstance().updateUsersEmail(email, newEmail);
     }
 }
